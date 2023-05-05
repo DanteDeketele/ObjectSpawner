@@ -16,8 +16,6 @@ public class TerrainObjectSpawner : MonoBehaviour
     [SerializeField] private Color _gizmosColor;
     private List<Ray> _rays = new List<Ray>();
 
-
-    // Start is called before the first frame update
     void Awake()
     {
         // Set the generation seed
