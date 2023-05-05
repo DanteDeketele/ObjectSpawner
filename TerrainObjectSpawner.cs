@@ -20,10 +20,11 @@ public class TerrainObjectSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        // Set the generation seed
         Random.InitState(Seed);
 
         _terrainSize = _terrain.terrainData.size;
-
+        
         for (int i = 0; i < ObjectAmount; i++)
         {
             float x = Random.Range(0, _terrainSize.x);
@@ -31,13 +32,16 @@ public class TerrainObjectSpawner : MonoBehaviour
 
             Vector3 rayPosition = new Vector3(x, _terrainSize.y, z);
             Ray ray = new Ray(rayPosition, Vector3.down);
+            
+            // Store rays to draw gizmos
             _rays.Add(ray);
 
             if (Physics.Raycast(ray, out RaycastHit hit, _terrainSize.y, ~_terrain.gameObject.layer))
             {
                 Vector3 position = new Vector3(x, _terrainSize.y - hit.distance, z);
-                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal); // Change to Quaternion.identity to remove normal rotation
+                
+                // Spawn Object
                 Instantiate(ObjectToSpawn, position, rotation);
             }
             else
